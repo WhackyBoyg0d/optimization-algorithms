@@ -11,6 +11,8 @@ public class ReadInput {
         data = new HashMap<String, Object>();
     }
 
+    //Greedy algorithm
+
     public float geneticAlgorithm() {
         List<List<Integer>> solution = (List<List<Integer>>) data.get("solution");
         List<List<List<Integer>>> population = new ArrayList <List<List<Integer>>>();
@@ -134,7 +136,7 @@ public class ReadInput {
                     return Double.compare(fitnessFunction(o2), fitnessFunction(o1));
                 }
             });
-            System.out.println("Population size: " + population.size()) ;
+            // System.out.println("Population size: " + population.size()) ;
             // population = population.subList(0, 100);
             List<List<List<Integer>>> firstHalf = new ArrayList<List<List<Integer>>>();
             firstHalf = population.subList(0, 90);
@@ -149,18 +151,18 @@ public class ReadInput {
             population = new ArrayList<List<List<Integer>>>();
             population.addAll(firstHalf);
             population.addAll(secondHalf);
-            Collections.shuffle(population);
+            // Collections.shuffle(population);
 
-            System.out.println("Population size 2: " + population.size()) ;
-            for(int l = 0; l < population.size(); l++){
-                System.out.println("Fitness: " + fitnessFunction(population.get(l)));
-            }
+            // System.out.println("Population size 2: " + population.size()) ;
+            // for(int l = 0; l < population.size(); l++){
+            //     System.out.println("Fitness: " + fitnessFunction(population.get(l)));
+            // }
         }
+        System.out.println("Solution by Genetic Algorithm") ;
         System.out.println("Best fitness: " + fitnessFunction(population.get(0)));
         // System.out.println("Best solution: " + population.get(0));
         solution = population.get(0);
-        hillClimbing();
-        System.out.println("Best fitness: " + fitnessFunction(solution));
+        System.out.println("Best Solution: " + fitnessFunction(solution));
         return fitnessFunction(population.get(0));
     }
 
@@ -248,10 +250,12 @@ public class ReadInput {
         System.out.println("Start");
         float bestFitness = currentFitness;
         boolean improved = true;
+        int ctr = 0;
         while (improved) {
             improved = false;
             for (int i = 0; i < solution.size(); i++) {
                 for (int j = 0; j < solution.get(i).size(); j++) {
+                    // System.out.println("i: " + i + " j: " + j);
                     List<List<Integer>> newSolution = new ArrayList<List<Integer>>();
                     for(int k = 0; k<number_of_caches; k++) {
                         List<Integer> cache = new ArrayList<Integer>();
@@ -270,6 +274,7 @@ public class ReadInput {
                     float newFitness = fitnessFunction(newSolution);
                     // System.out.println("New fitness: " + newFitness);
                     if (newFitness > bestFitness && checkSize(newSolution)) {
+                        ctr = 0;
                         for(int k = 0; k<number_of_caches; k++) {
                             for(int l = 0; l<number_of_videos; l++) {
                                 bestSolution.get(k).set(l, newSolution.get(k).get(l));
@@ -280,7 +285,10 @@ public class ReadInput {
                         // System.out.println("New best fitness: " + bestFitness);
                         // System.out.println("New best solution: " + bestSolution);
                     }
-                }
+                    ctr++;
+                // System.out.println("Ctr: " + ctr); 
+            }
+            
             }
         }
         System.out.println("Best fitness: " + bestFitness);
@@ -312,6 +320,23 @@ public class ReadInput {
             data.put("solution", solution);
             hillClimbing();
         }
+        System.out.println("Solution by HillClimbing" );
+        System.out.println("Final fitness: " + fitnessFunction((List<List<Integer>>) data.get("solution")));
+        System.out.println("Final solution: " + data.get("solution"));
+    }
+
+    public void initSol(){
+        int number_of_videos = (Integer) data.get("number_of_videos");
+        int number_of_caches = (Integer) data.get("number_of_caches");
+        List<List<Integer>> solution = new ArrayList<List<Integer>>();
+        for(int i = 0; i<number_of_caches; i++) {
+            List<Integer> cache = new ArrayList<Integer>();
+            for(int j = 0; j<number_of_videos; j++) {
+                cache.add(0);
+            }
+            solution.add(cache);
+        }
+        data.put("solution", solution);
     }
 
     public void fitness() {
@@ -328,14 +353,8 @@ public class ReadInput {
         Map<String, String> video_ed_request = (Map<String, String>) data.get("video_ed_request");
 
         //create solution
-        List<List<Integer>> solution = new ArrayList<List<Integer>>();
-        for(int i = 0; i<number_of_caches; i++) {
-            List<Integer> cache = new ArrayList<Integer>();
-            for(int j = 0; j<number_of_videos; j++) {
-                cache.add(0);
-            }
-            solution.add(cache);
-        }
+        initSol();
+        List<List<Integer>> solution = (List<List<Integer>>) data.get("solution");
 
         data.put("solution", solution);
         int min = video_size_desc[0]; // Assume first element is smallest
@@ -345,31 +364,15 @@ public class ReadInput {
             }
         }
         System.err.println("Solution Created");
-        // for (int i = 0; i < number_of_caches; i++) {
-        //     int currentCapacity = cache_size;
-        //     System.err.println("Current capacity: " + currentCapacity);
-        //     System.err.println(i);
-        //     while (currentCapacity > 0 && currentCapacity >= min) {
-        //         Random rand = new Random();
-        //         int videoId = rand.nextInt(number_of_videos);
-        //         if (video_size_desc[videoId] <= currentCapacity && !solution.get(i).get(videoId).equals(1)) {
-        //             solution.get(i).set(videoId, 1);
-        //             currentCapacity = currentCapacity - video_size_desc[videoId];
-        //             System.err.println("Current capacity: " + currentCapacity);
-        //         } else {
-        //             // Try a different video if this one doesn't fit or is already added
-        //             continue;
-        //         }
-        //     }
-        // }
-        data.put("solution", solution);
 
 
         
         System.out.println(fitnessFunction(solution));
         hillClimbing();
         System.out.println(fitnessFunction((List<List<Integer>>) data.get("solution")));
-        // geneticAlgorithm();
+
+        initSol();
+        geneticAlgorithm();
 
         
     }
@@ -465,7 +468,7 @@ public class ReadInput {
 
     public static void main(String[] args) throws IOException {  
         ReadInput ri = new ReadInput();
-        ri.readGoogle("input/trending_today.in");
+        ri.readGoogle("input/me_at_the_zoo.in");
         System.out.println(ri.data.get("video_ed_request"));
         System.out.println(ri.toString());
         ri.fitness();
