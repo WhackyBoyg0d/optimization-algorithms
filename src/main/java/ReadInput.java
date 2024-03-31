@@ -65,7 +65,7 @@ public class ReadInput {
                 return Double.compare(fitnessFunction(o2), fitnessFunction(o1));
             }
         });
-        int generations = 100;
+        int generations = 150;
         for(int ii = 0; ii<generations; ii++){
         //Crossover
             int crossoverRate = 90;
@@ -137,21 +137,21 @@ public class ReadInput {
                 }
             });
             // System.out.println("Population size: " + population.size()) ;
-            population = population.subList(0, 100);
-            // List<List<List<Integer>>> firstHalf = new ArrayList<List<List<Integer>>>();
-            // firstHalf = population.subList(0, 90);
-            // List<List<List<Integer>>> secondHalf = new ArrayList<List<List<Integer>>>();
-            // int i = population.size() - 1;
-            // int j = 0;
-            // while(j < 10){
-            //     secondHalf.add(population.get(i));
-            //     i--;
-            //     j++;
-            // }
-            // population = new ArrayList<List<List<Integer>>>();
-            // population.addAll(firstHalf);
-            // population.addAll(secondHalf);
-            // Collections.shuffle(population);
+            // population = population.subList(0, 100);
+            List<List<List<Integer>>> firstHalf = new ArrayList<List<List<Integer>>>();
+            firstHalf = population.subList(0, 95);
+            List<List<List<Integer>>> secondHalf = new ArrayList<List<List<Integer>>>();
+            int i = population.size() - 1;
+            int j = 0;
+            while(j < 5){
+                secondHalf.add(population.get(i));
+                i--;
+                j++;
+            }
+            population = new ArrayList<List<List<Integer>>>();
+            population.addAll(firstHalf);
+            population.addAll(secondHalf);
+            Collections.shuffle(population);
 
             // System.out.println("Population size 2: " + population.size()) ;
             // for(int l = 0; l < population.size(); l++){
@@ -162,7 +162,7 @@ public class ReadInput {
         System.out.println("Best fitness: " + fitnessFunction(population.get(0)));
         // System.out.println("Best solution: " + population.get(0));
         solution = population.get(0);
-        System.out.println("Best Solution: " + fitnessFunction(solution));
+        System.out.println("Best Solution: " + solution);
         return fitnessFunction(population.get(0));
     }
 
