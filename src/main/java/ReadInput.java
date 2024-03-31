@@ -68,7 +68,7 @@ public class ReadInput {
         int generations = 100;
         for(int ii = 0; ii<generations; ii++){
         //Crossover
-            int crossoverRate = 30;
+            int crossoverRate = 90;
             for(int i = 0; i < populationSize; i += 2){
                 Random rand = new Random();
                 int random = rand.nextInt(100);
@@ -100,7 +100,7 @@ public class ReadInput {
                 }
             }
             //Mutation
-            int mutationRate = 10 / (solution.size() * solution.get(0).size());
+            int mutationRate = 3;
             for(int i = 0; i < population.size(); i++){
                 List<List<Integer>> member = population.get(i);
                 for(int j = 0; j < member.size(); j++){
@@ -137,20 +137,20 @@ public class ReadInput {
                 }
             });
             // System.out.println("Population size: " + population.size()) ;
-            // population = population.subList(0, 100);
-            List<List<List<Integer>>> firstHalf = new ArrayList<List<List<Integer>>>();
-            firstHalf = population.subList(0, 90);
-            List<List<List<Integer>>> secondHalf = new ArrayList<List<List<Integer>>>();
-            int i = population.size() - 1;
-            int j = 0;
-            while(j < 10){
-                secondHalf.add(population.get(i));
-                i--;
-                j++;
-            }
-            population = new ArrayList<List<List<Integer>>>();
-            population.addAll(firstHalf);
-            population.addAll(secondHalf);
+            population = population.subList(0, 100);
+            // List<List<List<Integer>>> firstHalf = new ArrayList<List<List<Integer>>>();
+            // firstHalf = population.subList(0, 90);
+            // List<List<List<Integer>>> secondHalf = new ArrayList<List<List<Integer>>>();
+            // int i = population.size() - 1;
+            // int j = 0;
+            // while(j < 10){
+            //     secondHalf.add(population.get(i));
+            //     i--;
+            //     j++;
+            // }
+            // population = new ArrayList<List<List<Integer>>>();
+            // population.addAll(firstHalf);
+            // population.addAll(secondHalf);
             // Collections.shuffle(population);
 
             // System.out.println("Population size 2: " + population.size()) ;
@@ -247,7 +247,7 @@ public class ReadInput {
                 bestSolution.get(i).set(j, solution.get(i).get(j));
             }
         }
-        System.out.println("Start");
+        // System.out.println("Start");
         float bestFitness = currentFitness;
         boolean improved = true;
         int ctr = 0;
@@ -291,7 +291,7 @@ public class ReadInput {
             
             }
         }
-        System.out.println("Best fitness: " + bestFitness);
+        // System.out.println("Best fitness: " + bestFitness);
         return bestSolution;
     }
 
@@ -305,7 +305,7 @@ public class ReadInput {
             }
             data.put("solution", newSolution);
             counter++;
-            System.out.println("Counter: " + counter);
+            // System.out.println("Counter: " + counter);
         }
         //Random restart
         if(counter > 1000) {
