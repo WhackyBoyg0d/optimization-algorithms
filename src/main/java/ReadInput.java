@@ -11,7 +11,7 @@ public class ReadInput {
         data = new HashMap<String, Object>();
     }
 
-    //Greedy algorithm
+    //Genetic algorithm
 
     public float geneticAlgorithm() {
         List<List<Integer>> solution = (List<List<Integer>>) data.get("solution");
