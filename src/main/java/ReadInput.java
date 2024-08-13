@@ -3,10 +3,15 @@ package main.java;
 import java.io.*;
 import java.util.*;
 
-
+/**
+ * 
+ */
 public class ReadInput {
     public Map<String, Object> data;
 
+    /**
+     * Constructor for ReadInput
+     */
     public ReadInput() {
         data = new HashMap<String, Object>();
     }
@@ -14,6 +19,7 @@ public class ReadInput {
     //Genetic algorithm
 
     public float geneticAlgorithm() {
+        @SuppressWarnings("unchecked")
         List<List<Integer>> solution = (List<List<Integer>>) data.get("solution");
         List<List<List<Integer>>> population = new ArrayList <List<List<Integer>>>();
         int populationSize = 100;
@@ -169,9 +175,13 @@ public class ReadInput {
     public float fitnessFunction(List<List<Integer>> solution) {
         float reqTotal = 0;
         float num = 0;
+        @SuppressWarnings("unchecked")
         Map<String, String> video_ed_request = (Map<String, String>) data.get("video_ed_request");
+        @SuppressWarnings("unchecked")
         List<Integer> ep_to_dc_latency = (List<Integer>) data.get("ep_to_dc_latency");
+        @SuppressWarnings("unchecked")
         List<List<Integer>> ep_to_cache_latency = (List<List<Integer>>) data.get("ep_to_cache_latency");
+        @SuppressWarnings("unchecked")
         List<List<Integer>> ed_cache_list = (List<List<Integer>>) data.get("ed_cache_list");
         if(checkSize(solution) == false) {
             return 0;
@@ -232,6 +242,7 @@ public class ReadInput {
     public List<List<Integer>> hillClimbingStep() {
         int number_of_videos = (Integer) data.get("number_of_videos");
         int number_of_caches = (Integer) data.get("number_of_caches");
+        @SuppressWarnings("unchecked")
         List<List<Integer>> solution = (List<List<Integer>>) data.get("solution");
         float currentFitness = fitnessFunction(solution);
         List<List<Integer>> bestSolution = new ArrayList<List<Integer>>();
@@ -309,6 +320,7 @@ public class ReadInput {
         }
         //Random restart
         if(counter > 1000) {
+            @SuppressWarnings("unchecked")
             List<List<Integer>> solution = (List<List<Integer>>) data.get("solution");
             for(int i = 0; i<solution.size(); i++) {
                 for(int j = 0; j<solution.get(i).size(); j++) {
@@ -321,7 +333,9 @@ public class ReadInput {
             hillClimbing();
         }
         System.out.println("Solution by HillClimbing" );
-        System.out.println("Final fitness: " + fitnessFunction((List<List<Integer>>) data.get("solution")));
+        @SuppressWarnings("unchecked")
+        List<List<Integer>> solution = (List<List<Integer>>) data.get("solution");
+        System.out.println("Final fitness: " + fitnessFunction(solution));
         System.out.println("Final solution: " + data.get("solution"));
     }
 
@@ -347,13 +361,18 @@ public class ReadInput {
         int number_of_caches = (Integer) data.get("number_of_caches");
         int cache_size = (Integer) data.get("cache_size");
         int[] video_size_desc = (int[]) data.get("video_size_desc");
+        @SuppressWarnings("unchecked")
         List<Integer> ep_to_dc_latency = (List<Integer>) data.get("ep_to_dc_latency");
+        @SuppressWarnings("unchecked")
         List<List<Integer>> ep_to_cache_latency = (List<List<Integer>>) data.get("ep_to_cache_latency");
+        @SuppressWarnings("unchecked")
         List<List<Integer>> ed_cache_list = (List<List<Integer>>) data.get("ed_cache_list");
+        @SuppressWarnings("unchecked")
         Map<String, String> video_ed_request = (Map<String, String>) data.get("video_ed_request");
 
         //create solution
         initSol();
+        @SuppressWarnings("unchecked")
         List<List<Integer>> solution = (List<List<Integer>>) data.get("solution");
 
         data.put("solution", solution);
@@ -369,7 +388,9 @@ public class ReadInput {
         
         System.out.println(fitnessFunction(solution));
         hillClimbing();
-        System.out.println(fitnessFunction((List<List<Integer>>) data.get("solution")));
+        @SuppressWarnings("unchecked")
+        List<List<Integer>> solutionHillClimbing = (List<List<Integer>>) data.get("solution");
+        System.out.println(fitnessFunction(solutionHillClimbing));
 
         initSol();
         geneticAlgorithm();
@@ -454,10 +475,14 @@ public class ReadInput {
         for(int i = 0; i < (Integer) data.get("number_of_endpoints"); i++) {
             result += "enpoint number " + i + "\n";
             //latendcy to DC
+            @SuppressWarnings("unchecked")
             int latency_dc = ((List<Integer>) data.get("ep_to_dc_latency")).get(i);
             result += "latency to dc " + latency_dc + "\n";
             //for each cache
-            for(int j = 0; j < ((List<List<Integer>>) data.get("ep_to_cache_latency")).get(i).size(); j++) {
+            @SuppressWarnings("unchecked")
+            List<List<Integer>> ep_to_cache_latency = (List<List<Integer>>) data.get("ep_to_cache_latency");
+            for(int j = 0; j < ep_to_cache_latency.get(i).size(); j++) {
+                @SuppressWarnings("unchecked")
                 int latency_c = ((List<List<Integer>>) data.get("ep_to_cache_latency")).get(i).get(j); 
                 result += "latency to cache number " + j + " = " + latency_c + "\n";
             }
